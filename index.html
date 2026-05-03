@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     <!-- Preload Critical Asset -->
-    <link rel="preload" as="image" href="/images/hero/hero.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/hero/hero.png" fetchpriority="high">
     
     <style>
         :root {
@@ -147,7 +147,7 @@
         }
         .hero-img-overlay {
             position: absolute;
-            bottom: 12px;
+            top: -12px;
             right: 12px;
             background: rgba(255, 255, 255, 0.95);
             padding: 8px 16px;
@@ -314,29 +314,42 @@
 
         /* SEÇÃO 7 — CONTEÚDO */
         .content-section { background: #FFF5F7; padding: 36px 20px; }
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
         .content-card {
             border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 10px;
+            padding: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 14px;
+            text-align: center;
+            gap: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
         }
-        .content-icon {
-            min-width: 44px;
-            height: 44px;
+        .content-photo-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
             background: white;
-            border-radius: 50%;
+            border-radius: 10px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 32px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .content-info h5 { font-size: 15px; font-weight: 700; color: var(--texto-principal); margin-bottom: 2px; }
-        .content-info .qty { font-size: 12px; font-weight: 800; color: var(--primaria); }
-        .content-info .desc { font-size: 12px; color: var(--texto-suave); }
+        .content-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .content-info h5 { font-size: 14px; font-weight: 700; color: var(--texto-principal); margin-bottom: 2px; line-height: 1.2; }
+        .content-info .qty { font-size: 11px; font-weight: 800; color: var(--primaria); display: block; }
+        .content-info .desc { font-size: 11px; color: var(--texto-suave); line-height: 1.3; }
 
         /* SEÇÃO 8 — BENEFÍCIOS */
         .benefits-section { background: linear-gradient(180deg, var(--fundo-escuro), var(--fundo-medio)); padding: 36px 20px; color: white; }
@@ -356,28 +369,48 @@
         .benefits-final-box { background: rgba(255,209,102,0.15); border-radius: 12px; padding: 18px; margin-top: 18px; text-align: center; }
         .benefits-final-box h5 { font-size: 18px; font-weight: 800; color: var(--amarelo); }
 
-        /* SEÇÃO 9 — PROVA VISUAL (SLIDER) */
-        .visual-proof { background: #FFFFFF; padding: 28px 20px; text-align: center; }
-        .slider-container {
-            width: 100%;
-            aspect-ratio: 1 / 1.2;
-            border-radius: 24px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .slider-wrapper {
+        /* SEÇÃO 9 — PROVA VISUAL (MARQUEE) */
+        .visual-proof { background: #FFFFFF; padding: 28px 20px; text-align: center; overflow: hidden; }
+        .recipe-marquee-container {
+            margin: 20px -20px;
             display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-direction: column;
+            gap: 12px;
         }
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            position: relative;
+        .marquee-row {
+            display: flex;
+            width: max-content;
+            user-select: none;
         }
-        .slide img {
+        .marquee-inner {
+            display: flex;
+            gap: 12px;
+            padding-right: 12px;
+        }
+        .marquee-scroll-left {
+            animation: scrollLeft 40s linear infinite;
+        }
+        .marquee-scroll-right {
+            animation: scrollRight 40s linear infinite;
+        }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        .recipe-card-mini {
+            width: 260px;
+            aspect-ratio: 3/4.2;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            flex-shrink: 0;
+            background: #fdf2f4;
+        }
+        .recipe-card-mini img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -399,26 +432,41 @@
         }
         .stack-badge { background: var(--primaria); color: white; font-size: 10px; padding: 4px 12px; border-radius: 50px; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: inline-block; }
         .book-cover-container {
-            width: 140px;
-            margin: 0 auto 15px;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
+            width: 280px;
+            margin: 0 auto 20px;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.18));
             transition: transform 0.3s ease;
         }
         .book-cover-container:hover { transform: translateY(-5px) rotate(1deg); }
-        .book-cover-img { width: 100%; border-radius: 3px 8px 8px 3px; border-left: 1px solid rgba(0,0,0,0.05); }
-        .main-book-card h4 { font-size: 18px; font-weight: 900; color: var(--primaria); letter-spacing: 0.5px; }
-        .main-book-card ul { list-style: none; font-size: 13px; color: var(--texto-suave); margin-top: 8px; text-align: center; }
+        .book-cover-img { 
+            width: 100%; 
+            height: auto;
+            border-radius: 4px 10px 10px 4px; 
+            border-left: 2px solid rgba(0,0,0,0.08); 
+            object-fit: contain;
+        }
+        .main-book-card h4 { font-size: 22px; font-weight: 900; color: var(--primaria); letter-spacing: 0.5px; margin-top: 10px; }
+        .main-book-card ul { list-style: none; font-size: 15px; color: var(--texto-suave); margin-top: 12px; text-align: center; }
         .main-book-card ul li { margin-bottom: 4px; }
 
         .bonus-card {
             background: #F9F9F9;
             border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
             display: flex;
-            gap: 12px;
-            align-items: flex-start;
+            gap: 18px;
+            align-items: center;
             position: relative;
+        }
+        .bonus-card img.bonus-thumb {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            flex-shrink: 0;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            background: #f0f0f0;
+            border-radius: 8px;
         }
         .bonus-free-badge { position: absolute; top: 14px; right: 16px; background: var(--verde-sucesso); color: white; font-size: 9px; padding: 2px 8px; border-radius: 50px; font-weight: 700; }
         .bonus-info h5 { font-size: 14px; font-weight: 700; color: var(--texto-principal); }
@@ -433,7 +481,17 @@
             padding: 24px;
             border: 2px solid rgba(255,255,255,0.45);
         }
-        .price-box .old { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: line-through; display: block; }
+        .price-box .old { 
+            font-size: 17px; 
+            background-color: #c90000; 
+            font-weight: bold; 
+            color: #ffffff;
+            text-decoration: line-through; 
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
         .price-box .main-price { font-size: 54px; font-weight: 900; animation: shimmer 2s infinite; line-height: 1.1; margin: 6px 0; }
         .price-box .main-price small { font-size: 20px; }
         
@@ -453,7 +511,36 @@
         .btn-offer .l1 { font-size: 17px; font-weight: 900; display: block; }
         .btn-offer .l2 { font-size: 10px; font-weight: 500; opacity: 0.8; display: block; margin-top: 2px; }
 
-        .offer-badges { display: flex; justify-content: center; gap: 16px; margin-top: 14px; font-size: 11px; opacity: 0.85; }
+        .offer-badges { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px; 
+            margin: 25px auto 0; 
+            font-size: 12px;
+            width: 100%;
+        }
+        .offer-badges span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            line-height: 1.2;
+            transition: transform 0.2s;
+        }
+        .offer-badges span:nth-child(3) {
+            grid-column: span 2;
+        }
+        .offer-badges span:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.25);
+        }
 
         /* SEÇÃO 12 — URGÊNCIA */
         .urgency-section { background: #FFF9E6; border-top: 3px solid var(--amarelo); border-bottom: 3px solid var(--amarelo); padding: 20px; text-align: center; }
@@ -461,6 +548,62 @@
         .urgency-section .msg1 { font-size: 15px; font-weight: 800; color: var(--vermelho-alerta); }
         .urgency-section .msg2 { font-size: 14px; font-weight: 700; color: var(--vermelho-alerta); margin-top: 4px; }
         .urgency-pill { background: white; border-radius: 20px; padding: 8px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--verde-sucesso); }
+
+        /* SEÇÃO: CÓMO RECIBES TU PEDIDO */
+        .delivery-steps { background: #fdfdfd; padding: 50px 20px; text-align: center; }
+        .delivery-steps .section-title { margin-bottom: 30px; font-size: 24px; font-weight: 900; color: var(--texto-principal); }
+        .steps-container { position: relative; max-width: 450px; margin: 0 auto; text-align: left; padding-left: 10px; }
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: #eee;
+            z-index: 1;
+        }
+        .step-item { display: flex; gap: 15px; margin-bottom: 30px; position: relative; z-index: 2; }
+        .step-number {
+            width: 38px;
+            height: 38px;
+            background: var(--primaria);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(255,111,97,0.3);
+        }
+        .step-content { flex: 1; }
+        .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+        .step-header span { font-size: 20px; }
+        .step-header h4 { font-size: 17px; font-weight: 700; color: var(--texto-principal); }
+        .step-content p { font-size: 13px; color: var(--texto-suave); line-height: 1.5; }
+
+        /* NOTIFICAÇÃO PROVA SOCIAL */
+        #social-proof-popup {
+            position: fixed;
+            bottom: -100px;
+            left: 20px;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 280px;
+            transition: bottom 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            border: 1px solid #f0f0f0;
+        }
+        #social-proof-popup.active { bottom: 20px; }
+        .popup-icon { font-size: 24px; }
+        .popup-text { font-size: 13px; color: #444; font-weight: 500; line-height: 1.3; }
 
         /* SEÇÃO 13 — PARA QUEM */
         .target-section { background: #FFFFFF; padding: 36px 20px; }
@@ -515,7 +658,12 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             border: 1px solid #f0f0f0;
         }
-        .testimonial-item img { width: 100%; display: block; }
+        .testimonial-item img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            object-fit: cover;
+        }
         .hidden-testimonial { display: none; }
         .btn-more-testimonials {
             background: white;
@@ -636,26 +784,22 @@
         <h2 style="font-size: 16px; font-weight: 500; color: var(--texto-suave); margin-bottom: 30px; line-height: 1.5; max-width: 380px; margin: 0 auto 30px;">La guía definitiva de alimentación infantil, explicada paso a paso</h2>
 
         <div class="hero-img-container">
-            <!-- Imagem de hero enviada pelo usuário -->
-            <img src="/images/hero/hero.webp" 
-                 alt="Bebê comiendo saludable" 
-                 width="380" height="214"
-                 fetchpriority="high" decoding="async"
-                 style="aspect-ratio: 380 / 214; background: #f0f0f0;">
             <div class="hero-img-overlay">
                 💚 +5.000 mamás confían en nosotros
             </div>
+            <!-- Imagem de hero enviada pelo usuário -->
+            <img src="/images/hero/hero.png" 
+                 alt="Bundle Digital de Recetarios Infantiles - +400 Recetas y 7 Bonos Extra" 
+                 fetchpriority="high" decoding="async">
         </div>
 
         <a href="#oferta" class="btn-cta">
             <span class="line1">Quiero solucionar esto ahora </span>
         </a>
 
-        <p class="cta-trust" style="margin-top: 15px; margin-bottom: 0;">🔒 Pago 100% seguro · Garantía incluida</p>
-
         <div class="live-proof" style="margin-top: 8px; margin-bottom: 20px;">
             <div class="green-dot"></div>
-            <span id="live-counter">91 personas comprando ahora</span>
+            <span id="live-counter">91 mamás interesadas ahora</span>
         </div>
 
         <div class="credibility-bullets">
@@ -716,38 +860,46 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 9 — PROVA VISUAL (MOVIDA) -->
+    <!-- SEÇÃO 9 — PROVA VISUAL (MARQUEE) -->
     <section class="visual-proof">
-        <h2 style="font-size: 18px; font-weight: 700; color: #2D2427; margin-bottom: 16px;">✨ Páginas reales del recetario</h2>
+        <h2 style="font-size: 18px; font-weight: 700; color: #2D2427; margin-bottom: 16px;">✨ Algunas páginas reales del recetario</h2>
         
-        <div class="slider-container">
-            <div class="slider-wrapper" id="recipe-slider">
-                <div class="slide">
-                    <img src="/images/recetas/avena.webp" alt="Receta Avena" width="480" height="270" loading="lazy" decoding="async">
+        <div class="recipe-marquee-container">
+            <!-- Row 1: Left Scroll -->
+            <div class="marquee-row marquee-scroll-left">
+                <div class="marquee-inner">
+                    <div class="recipe-card-mini"><img src="/images/recetas/avena.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/bites.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/crepes.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/muffins.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/pancakes.webp" alt="Receta" loading="lazy"></div>
                 </div>
-                <div class="slide">
-                    <img src="/images/recetas/bites.webp" alt="Receta Bites" width="480" height="270" loading="lazy" decoding="async">
+                <!-- Duplicate for seamless scroll -->
+                <div class="marquee-inner">
+                    <div class="recipe-card-mini"><img src="/images/recetas/avena.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/bites.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/crepes.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/muffins.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/pancakes.webp" alt="Receta" loading="lazy"></div>
                 </div>
-                <div class="slide">
-                    <img src="/images/recetas/crepes.webp" alt="Receta Crepes" width="480" height="270" loading="lazy" decoding="async">
+            </div>
+
+            <!-- Row 2: Right Scroll -->
+            <div class="marquee-row marquee-scroll-right">
+                <div class="marquee-inner">
+                    <div class="recipe-card-mini"><img src="/images/recetas/salmon.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/yogurt.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/tostada.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/matacuya.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/avena.webp" alt="Receta" loading="lazy"></div>
                 </div>
-                <div class="slide">
-                    <img src="/images/recetas/muffins.webp" alt="Receta Muffins" width="480" height="270" loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/images/recetas/pancakes.webp" alt="Receta Pancakes" width="480" height="270" loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/images/recetas/salmon.webp" alt="Receta Salmon" width="480" height="270" loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/images/recetas/yogurt.webp" alt="Receta Yogurt" width="480" height="270" loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/images/recetas/tostada.webp" alt="Receta Tostada" width="480" height="270" loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/images/recetas/matacuya.webp" alt="Receta Matacuya" width="480" height="270" loading="lazy" decoding="async">
+                <!-- Duplicate for seamless scroll -->
+                <div class="marquee-inner">
+                    <div class="recipe-card-mini"><img src="/images/recetas/salmon.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/yogurt.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/tostada.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/matacuya.webp" alt="Receta" loading="lazy"></div>
+                    <div class="recipe-card-mini"><img src="/images/recetas/avena.webp" alt="Receta" loading="lazy"></div>
                 </div>
             </div>
         </div>
@@ -800,57 +952,71 @@
     <section class="content-section">
         <h2 class="section-title">¿Qué encontrarás dentro?</h2>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #FFF3CD, #FFE0B2);">
-            <div class="content-icon">🥣</div>
-            <div class="content-info">
-                <h5>Desde los primeros bocados</h5>
-                <span class="qty">6 meses+</span>
-                <p class="desc">Papillas y texturas seguras</p>
+        <div class="content-grid">
+            <div class="content-card" style="background: linear-gradient(135deg, #FFF3CD, #FFE0B2);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/DESDE LOS PRIMEROS BOCADOS.jpeg" alt="Desde los primeros bocados" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Desde los primeros bocados</h5>
+                    <span class="qty">6 meses+</span>
+                    <p class="desc">Papillas y texturas seguras</p>
+                </div>
             </div>
-        </div>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #FFE5E5, #FFCDD2);">
-            <div class="content-icon">🍳</div>
-            <div class="content-info">
-                <h5>Desayunos</h5>
-                <span class="qty">+50 recetas</span>
-                <p class="desc">Energía sin complicaciones</p>
+            <div class="content-card" style="background: linear-gradient(135deg, #FFE5E5, #FFCDD2);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/cafe da manha.jpeg" alt="Desayunos" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Desayunos</h5>
+                    <span class="qty">+50 recetas</span>
+                    <p class="desc">Energía sin complicaciones</p>
+                </div>
             </div>
-        </div>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
-            <div class="content-icon">🥗</div>
-            <div class="content-info">
-                <h5>Almuerzos</h5>
-                <span class="qty">+50 recetas</span>
-                <p class="desc">Comidas para toda la familia</p>
+            <div class="content-card" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/almoço.jpeg" alt="Almuerzos" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Almuerzos</h5>
+                    <span class="qty">+50 recetas</span>
+                    <p class="desc">Comidas para toda la familia</p>
+                </div>
             </div>
-        </div>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #FFFDE7, #FFF9C4);">
-            <div class="content-icon">🍌</div>
-            <div class="content-info">
-                <h5>Meriendas</h5>
-                <span class="qty">+50 recetas</span>
-                <p class="desc">Rápidas, prácticas y saludables</p>
+            <div class="content-card" style="background: linear-gradient(135deg, #FFFDE7, #FFF9C4);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/merenda.jpeg" alt="Meriendas" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Meriendas</h5>
+                    <span class="qty">+50 recetas</span>
+                    <p class="desc">Rápidas, práticas y saludables</p>
+                </div>
             </div>
-        </div>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #EDE7F6, #D1C4E9);">
-            <div class="content-icon">🌙</div>
-            <div class="content-info">
-                <h5>Cenas</h5>
-                <span class="qty">+50 recetas</span>
-                <p class="desc">Platos ligeros para dormir mejor</p>
+            <div class="content-card" style="background: linear-gradient(135deg, #EDE7F6, #D1C4E9);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/cenas.jpeg" alt="Cenas" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Cenas</h5>
+                    <span class="qty">+50 recetas</span>
+                    <p class="desc">Platos ligeros para dormir mejor</p>
+                </div>
             </div>
-        </div>
 
-        <div class="content-card" style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0);">
-            <div class="content-icon">🍪</div>
-            <div class="content-info">
-                <h5>Postres saludables</h5>
-                <span class="qty">+50 recetas</span>
-                <p class="desc">Sin azúcar añadida</p>
+            <div class="content-card" style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0);">
+                <div class="content-photo-box">
+                    <img src="/images/imagens receitas dentro/POSTRES SALUDABLES.jpeg" alt="Postres saludables" loading="lazy">
+                </div>
+                <div class="content-info">
+                    <h5>Postres saludables</h5>
+                    <span class="qty">+50 recetas</span>
+                    <p class="desc">Sin azúcar añadida</p>
+                </div>
             </div>
         </div>
     </section>
@@ -876,48 +1042,48 @@
         
         <div class="testimonials-grid" id="testimonials-grid">
             <div class="testimonial-item">
-                <img src="/images/testimonials/testimonios-ig-1-BETjJIrG.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-1-BETjJIrG.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item">
-                <img src="/images/testimonials/testimonios-ig-2-CiUnm7C7.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-2-CiUnm7C7.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item">
-                <img src="/images/testimonials/testimonios-ig-4-DhDxAlaS.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-4-DhDxAlaS.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item">
-                <img src="/images/testimonials/testimonios-ig-5-CYkEFB9G.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-5-CYkEFB9G.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             
             <!-- Ocultos inicialmente -->
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-6-hfLL-RQj.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-6-hfLL-RQj.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-7-tNlMPoeI.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-7-tNlMPoeI.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-8-CS9a26dZ.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-8-CS9a26dZ.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-9-CKJ-wzu9.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-9-CKJ-wzu9.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-10-CvRFho1f.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-10-CvRFho1f.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-11-55Wsxjmb.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-11-55Wsxjmb.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-12-pCqRb7FZ.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-12-pCqRb7FZ.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-13-rhvNdRwt.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-13-rhvNdRwt.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonial-14-BQv5ERat.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonial-14-BQv5ERat.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
             <div class="testimonial-item hidden-testimonial">
-                <img src="/images/testimonials/testimonios-ig-15-Nbh8cS3S.webp" alt="Testimonio" width="230" height="400" loading="lazy" decoding="async">
+                <img src="/images/testimonials/testimonios-ig-15-Nbh8cS3S.webp" alt="Testimonio" width="230" loading="lazy" decoding="async">
             </div>
         </div>
 
@@ -931,7 +1097,7 @@
         <div class="main-book-card">
             <span class="stack-badge">LIBRO PRINCIPAL</span>
             <div class="book-cover-container">
-                <img src="/images/livro 400 recetas.webp" alt="Recetario Primeros Bocados" width="200" height="280" class="book-cover-img" loading="lazy" decoding="async">
+                <img src="/images/entregaveis/+400 recetas.png" alt="Recetario Primeros Bocados" width="200" height="280" class="book-cover-img" loading="lazy" decoding="async">
             </div>
             <h4>+400 RECETAS PRINCIPALES</h4>
             <ul>
@@ -943,7 +1109,7 @@
 
         <div class="bonus-card">
             <span class="bonus-free-badge">GRATIS</span>
-            <span style="font-size: 24px;">🍓</span>
+            <img src="/images/entregaveis/2.png" alt="Bono 1" class="bonus-thumb" loading="lazy">
             <div class="bonus-info">
                 <h5 style="color: #E91E63;">BONO 1: Dulces sin azúcar</h5>
                 <p>Galletas, snacks, helados, batidos</p>
@@ -952,7 +1118,7 @@
 
         <div class="bonus-card">
             <span class="bonus-free-badge">GRATIS</span>
-            <span style="font-size: 24px;">🍉</span>
+            <img src="/images/entregaveis/3.png" alt="Bono 2" class="bonus-thumb" loading="lazy">
             <div class="bonus-info">
                 <h5 style="color: #FF5722;">BONO 2: Snacks frutales premium</h5>
                 <p>Texturas seguras por edad</p>
@@ -961,7 +1127,7 @@
 
         <div class="bonus-card">
             <span class="bonus-free-badge">GRATIS</span>
-            <span style="font-size: 24px;">📖</span>
+            <img src="/images/entregaveis/4.png" alt="Bono 3" class="bonus-thumb" loading="lazy">
             <div class="bonus-info">
                 <h5 style="color: #6C63A6;">BONO 3: Guía paso a paso</h5>
                 <p>Cómo iniciar correctamente</p>
@@ -970,7 +1136,7 @@
 
         <div class="bonus-card">
             <span class="bonus-free-badge">GRATIS</span>
-            <span style="font-size: 24px;">🌿</span>
+            <img src="/images/entregaveis/5.png" alt="Bono 4" class="bonus-thumb" loading="lazy">
             <div class="bonus-info">
                 <h5 style="color: #4CAF50;">BONO 4: Botiquín natural para mamá</h5>
                 <p>Digestión, estrés, descanso</p>
@@ -979,10 +1145,28 @@
 
         <div class="bonus-card">
             <span class="bonus-free-badge">GRATIS</span>
-            <span style="font-size: 24px;">🍲</span>
+            <img src="/images/entregaveis/6.png" alt="Bono 5" class="bonus-thumb" loading="lazy">
             <div class="bonus-info">
                 <h5 style="color: #9C27B0;">BONO 5: +100 recetas EXTRA</h5>
                 <p>Más variedad, más practicidad</p>
+            </div>
+        </div>
+
+        <div class="bonus-card">
+            <span class="bonus-free-badge">GRATIS</span>
+            <img src="/images/entregaveis/7.png" alt="Bono 6" class="bonus-thumb" loading="lazy">
+            <div class="bonus-info">
+                <h5 style="color: #2196F3;">BONO 6: Planificador Semanal</h5>
+                <p>Organiza las comidas de tu bebé</p>
+            </div>
+        </div>
+
+        <div class="bonus-card">
+            <span class="bonus-free-badge">GRATIS</span>
+            <img src="/images/entregaveis/8.png" alt="Bono 7" class="bonus-thumb" loading="lazy">
+            <div class="bonus-info">
+                <h5 style="color: #CC2B5E;">BONO 7: Lista de Compras</h5>
+                <p>Ahorra tiempo y dinero en el súper</p>
             </div>
         </div>
     </section>
@@ -996,10 +1180,10 @@
             <div class="main-price">$8.99 <small>USD</small></div>
             
             <div class="offer-list">
-                <div><span class="check">✔</span> 5 libros digitales</div>
-                <div><span class="check">✔</span> +400 recetas organizadas por etapa</div>
+                <div><span class="check">✔</span> Guía principal: +400 recetas</div>
+                <div><span class="check">✔</span> Recetas organizadas por etapa</div>
                 <div><span class="check">✔</span> +100 recetas extra</div>
-                <div><span class="check">✔</span> 5 bonos premium GRATIS</div>
+                <div><span class="check">✔</span> 7 bonos premium GRATIS</div>
             </div>
 
             <a href="https://pay.hotmart.com/X105501722H?checkoutMode=10" class="btn-offer">
@@ -1007,9 +1191,9 @@
             </a>
 
             <div class="offer-badges">
-                <span>🔒 Pago Seguro</span>
-                <span>⚡ Acceso Inmediato</span>
-                <span>📱 Cualquier Dispositivo</span>
+                <span>✅ Compra → Email en 2 minutos</span>
+                <span>✅ Acceso inmediato en el celular</span>
+                <span>✅ Garantía de 30 días</span>
             </div>
         </div>
     </section>
@@ -1022,7 +1206,50 @@
 
         <div class="urgency-pill">
             <div class="green-dot"></div>
-            <span>👩‍👧 18 personas comprando ahora</span>
+            <span>👩‍👧 113 mamás interesadas ahora</span>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: CÓMO RECIBES TU PEDIDO -->
+    <section class="delivery-steps">
+        <h2 class="section-title">¿Cómo recibes tu pedido?</h2>
+        
+        <div class="steps-container">
+            <!-- Paso 1 -->
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <span>🛒</span>
+                        <h4>Haz tu pedido</h4>
+                    </div>
+                    <p>Completa tu compra de forma segura. Aceptamos tarjeta de crédito y PayPal.</p>
+                </div>
+            </div>
+
+            <!-- Paso 2 -->
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <span>📧</span>
+                        <h4>Recibe en tu email</h4>
+                    </div>
+                    <p>En menos de 2 minutos recibes un email con el acceso completo a tu guía.</p>
+                </div>
+            </div>
+
+            <!-- Paso 3 -->
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <span>📱</span>
+                        <h4>Accede desde cualquier lugar</h4>
+                    </div>
+                    <p>Ábrelo desde tu celular, tablet o computadora cuando quieras, las veces que quieras.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1158,6 +1385,12 @@
         Este sitio no pertenece a Facebook ni a Facebook Inc.
     </footer>
 
+    <!-- SOCIAL PROOF POPUP -->
+    <div id="social-proof-popup">
+        <span class="popup-icon">🍼</span>
+        <div class="popup-text" id="popup-text">María acaba de adquirir Primeros Bocados</div>
+    </div>
+
     <!-- EXIT POPUP HTML -->
     <div id="exit-popup" class="popup-overlay">
         <div class="popup-content">
@@ -1184,11 +1417,11 @@
         function updateCounter() {
             const min = 81, max = 117;
             const rand = Math.floor(Math.random() * (max - min + 1)) + min;
-            if (counterEl) counterEl.innerHTML = `${rand} personas comprando ahora`;
+            if (counterEl) counterEl.innerHTML = `${rand} mamás interesadas ahora`;
             
             // Update counters in other sections too
             const otherCounters = document.querySelectorAll('.urgency-pill span');
-            otherCounters.forEach(el => el.innerHTML = `👩‍👧 ${rand} personas comprando ahora`);
+            otherCounters.forEach(el => el.innerHTML = `👩‍👧 ${rand} mamás interesadas ahora`);
         }
         function scheduleNextUpdate() {
             const delay = Math.floor(Math.random() * 4000) + 3000;
@@ -1201,20 +1434,6 @@
         let popupShown = false;
         const popup = document.getElementById('exit-popup');
         const closeBtn = document.getElementById('close-popup');
-
-        // Recipes Slider Logic
-        const slider = document.getElementById('recipe-slider');
-        if (slider) {
-            let currentSlide = 0;
-            const slidesCount = slider.children.length;
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slidesCount;
-                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
-
-            setInterval(nextSlide, 3500); // Change slide every 3.5 seconds
-        }
 
         // Testimonials Toggle
         const btnShowTestimonials = document.getElementById('btn-show-testimonials');
@@ -1241,6 +1460,33 @@
 
         if (closeBtn) closeBtn.addEventListener('click', () => popup.style.display = 'none');
         if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) popup.style.display = 'none'; });
+
+        // Social Proof Popup Logic
+        const proofPopup = document.getElementById('social-proof-popup');
+        const popupText = document.getElementById('popup-text');
+        const names = [
+            "María", "Alejandra", "Fernanda", "Paola", "Karla", 
+            "Natalia", "Verónica", "Carolina", "Adriana", "Patricia"
+        ];
+        let nameIndex = 0;
+
+        function showSocialProof() {
+            if (nameIndex >= names.length) nameIndex = 0;
+            popupText.innerHTML = `${names[nameIndex]} acaba de adquirir Primeros Bocados 🍼`;
+            proofPopup.classList.add('active');
+            nameIndex++;
+
+            setTimeout(() => {
+                proofPopup.classList.remove('active');
+            }, 5000); // Fica visível por 5 segundos
+        }
+
+        // Primeira exibição após 8 segundos
+        setTimeout(() => {
+            showSocialProof();
+            // Repetir a cada 35 segundos
+            setInterval(showSocialProof, 35000);
+        }, 8000);
     });
 </script>
 
